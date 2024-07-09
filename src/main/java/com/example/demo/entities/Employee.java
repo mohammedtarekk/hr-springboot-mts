@@ -7,7 +7,7 @@ import java.time.LocalDate;
 
 @Entity
 @Table(name = "employees")
-@NamedStoredProcedureQuery(name = "Employee.handle",
+@NamedStoredProcedureQuery(name = "Employee.handleVacationRequest",
         procedureName = "HR.HANDLE_EMPLOYEE_VACATION_REQ",
         parameters = {
                 @StoredProcedureParameter(mode = ParameterMode.IN, name = "P_EMP_ID", type = Long.class),

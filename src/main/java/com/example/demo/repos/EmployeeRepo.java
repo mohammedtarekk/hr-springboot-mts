@@ -16,7 +16,7 @@ public interface EmployeeRepo extends JpaRepository<Employee, Long> {
     @Query("DELETE FROM #{#entityName} e WHERE e.id = :id")
     void deleteById(@Param("id") Long id);
 
-    @Procedure(name = "Employee.handle")
+    @Procedure(name = "Employee.handleVacationRequestg")
     @Transactional
     Integer handleEmployeeVacationRequest(@Param("P_EMP_ID") Long id, @Param("P_START_DATE") LocalDate startDate, @Param("P_END_DATE") LocalDate endDate);
 }
