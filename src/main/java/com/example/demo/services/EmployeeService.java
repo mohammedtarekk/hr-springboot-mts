@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -20,7 +19,7 @@ public class EmployeeService {
     private final EmployeeRepo employeeRepo;
     private static final int INITIAL_VAC_BALANCE = 21;
 
-    public List<com.example.demo.entities.Employee> getAllEmployees(){
+    public List<Employee> getAllEmployees(){
         return employeeRepo.findAll();
     }
 
@@ -28,16 +27,16 @@ public class EmployeeService {
         return employeeRepo.findById(id).orElseThrow(() -> new EmployeeNotFoundException(id));
     }
 
-    public Long createEmployee(com.example.demo.entities.Employee employee){
+    public Long createEmployee(Employee employee){
         setNewEmpVacationBalance(employee);
         return employeeRepo.save(employee).getId();
     }
 
-    private void setNewEmpVacationBalance(com.example.demo.entities.Employee employee) {
+    private void setNewEmpVacationBalance(Employee employee) {
         employee.setVacationBalance(INITIAL_VAC_BALANCE);
     }
 
-    public void updateEmployee(Long id, com.example.demo.entities.Employee employee){
+    public void updateEmployee(Long id, Employee employee){
         if(id == null) throw new MissingDataException("Employee id is missing");
         if(!id.equals(employee.getId())) throw new BadDataException("Employee id should match with the given resource id");
         if(employeeRepo.existsById(id)){
