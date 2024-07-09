@@ -52,10 +52,7 @@ public class EmployeeService {
     }
 
     public void handleEmployeeVacationRequest(Long id, LocalDate startDate, LocalDate endDate){
-        if(id == null) throw new MissingDataException("Employee id is missing");
-        if(startDate == null || endDate == null) throw new MissingDataException("Dates are required");
-        if(endDate.isBefore(startDate))
-            throw new BadDataException("end date should be after start date");
+        validateVacationRequest(id, startDate, endDate);
         if(employeeRepo.existsById(id)){
             Integer requestSuccess = employeeRepo.handleEmployeeVacationRequest(id, startDate, endDate);
             if(requestSuccess == 0)
@@ -63,6 +60,15 @@ public class EmployeeService {
         }
         else
             throw new EmployeeNotFoundException(id);
+    }
+
+    private void validateVacationRequest(Long id, LocalDate startDate, LocalDate endDate){
+        if(id == null)
+            throw new MissingDataException("Employee id is missing");
+        if(startDate == null || endDate == null)
+            throw new MissingDataException("Dates are required");
+        if(endDate.isBefore(startDate))
+            throw new BadDataException("end date should be after start date");
     }
 
 }
