@@ -76,7 +76,7 @@ public class EmployeeService {
         else
             throw new InsufficientVacationBalanceException("Insufficient vacation balance");
     }
-
+    
     private void validateVacationRequest(Long id, LocalDate startDate, LocalDate endDate){
         if(id == null)
             throw new MissingDataException("Employee id is missing");
@@ -85,4 +85,5 @@ public class EmployeeService {
         if(endDate.isBefore(startDate))
             throw new BadDataException("end date should be after start date");
     }
+
 }
