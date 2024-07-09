@@ -6,10 +6,12 @@ import com.example.demo.exceptions.EmployeeNotFoundException;
 import com.example.demo.exceptions.InsufficientVacationBalanceException;
 import com.example.demo.exceptions.MissingDataException;
 import com.example.demo.repos.EmployeeRepo;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 @Service
@@ -62,6 +64,19 @@ public class EmployeeService {
             throw new EmployeeNotFoundException(id);
     }
 
+    @Transactional
+    public void handleEmployeeVacationRequestV2(Long id, LocalDate startDate, LocalDate endDate) {
+        validateVacationRequest(id, startDate, endDate);
+        Employee employee = employeeRepo.findById(id).orElseThrow(() -> new EmployeeNotFoundException(id));
+        long requestedDaysCount = ChronoUnit.DAYS.between(startDate, endDate) + 1;
+        if(requestedDaysCount <= employee.getVacationBalance()){
+            employeeRepo.updateEmpVacationBalance(id, requestedDaysCount);
+            employeeRepo.insertEmpVacationHistory(id, startDate, endDate);
+        }
+        else
+            throw new InsufficientVacationBalanceException("Insufficient vacation balance");
+    }
+    
     private void validateVacationRequest(Long id, LocalDate startDate, LocalDate endDate){
         if(id == null)
             throw new MissingDataException("Employee id is missing");
