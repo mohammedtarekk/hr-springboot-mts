@@ -51,7 +51,7 @@ public class EmployeeController {
         return ResponseEntity.ok().build();
     }
 
-    @PatchMapping("salary")
+    @PostMapping("salary")
     public ResponseEntity<?> handleEmployeesAnnualRaise(@RequestBody AnnualRaiseRequest request) {
         employeeService.handleAnnualRaise(request.getRaisePercentage(), request.getMinHiringMonths());
         return ResponseEntity.ok().build();
