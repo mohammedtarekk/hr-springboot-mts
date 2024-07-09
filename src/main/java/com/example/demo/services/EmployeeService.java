@@ -66,4 +66,9 @@ public class EmployeeService {
             throw new EmployeeNotFoundException(id);
     }
 
+    public void handleAnnualRaise(Float raisePercentage, Integer minHiringMonths) {
+        if(raisePercentage == null || minHiringMonths == null)
+            throw new MissingDataException("Missing required data.");
+        employeeRepo.handleEmployeesAnnualRaise(raisePercentage, minHiringMonths);
+    }
 }

@@ -7,13 +7,20 @@ import java.time.LocalDate;
 
 @Entity
 @Table(name = "employees")
-@NamedStoredProcedureQuery(name = "Employee.handle",
+@NamedStoredProcedureQuery(name = "Employee.handleVacationRequest",
         procedureName = "HR.HANDLE_EMPLOYEE_VACATION_REQ",
         parameters = {
                 @StoredProcedureParameter(mode = ParameterMode.IN, name = "P_EMP_ID", type = Long.class),
                 @StoredProcedureParameter(mode = ParameterMode.IN, name = "P_START_DATE", type = LocalDate.class),
                 @StoredProcedureParameter(mode = ParameterMode.IN, name = "P_END_DATE", type = LocalDate.class),
                 @StoredProcedureParameter(mode = ParameterMode.OUT, name = "OUT_IS_SUCCESS", type = Integer.class)
+        })
+
+@NamedStoredProcedureQuery(name = "Employee.handleAnnualRaise",
+        procedureName = "HR.HANDLE_ANNUAL_SALARY_RAISE",
+        parameters = {
+                @StoredProcedureParameter(mode = ParameterMode.IN, name = "P_RAISE_PRECENTAGE", type = Float.class),
+                @StoredProcedureParameter(mode = ParameterMode.IN, name = "P_MIN_HIRING_MONTHS", type = Integer.class),
         })
 public class Employee{
 

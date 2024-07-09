@@ -2,6 +2,7 @@ package com.example.demo.exceptions.handlers;
 
 import com.example.demo.exceptions.BadDataException;
 import com.example.demo.exceptions.InsufficientVacationBalanceException;
+import com.example.demo.exceptions.MissingDataException;
 import com.example.demo.exceptions.NotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,20 +22,14 @@ public class GlobalExceptionHandler {
 
     private final Logger log = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    public Map<String, String> handleValidationExceptions(MethodArgumentNotValidException ex) {
-        Map<String, String> errors = new HashMap<>();
-        ex.getBindingResult().getAllErrors().forEach((error) -> {
-            String fieldName = ((FieldError) error).getField();
-            String errorMessage = error.getDefaultMessage();
-            errors.put(fieldName, errorMessage);
-        });
-        return errors;
-    }
-
     @ExceptionHandler(BadDataException.class)
     public ResponseEntity<String> handleBadDataException(BadDataException ex) {
+        log.error(ex.getMessage());
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(MissingDataException.class)
+    public ResponseEntity<String> handleMissingDataException(MissingDataException ex) {
         log.error(ex.getMessage());
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
     }

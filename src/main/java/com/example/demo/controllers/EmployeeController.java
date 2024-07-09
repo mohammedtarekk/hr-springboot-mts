@@ -1,5 +1,6 @@
 package com.example.demo.controllers;
 
+import com.example.demo.DTOs.AnnualRaiseRequest;
 import com.example.demo.DTOs.EmployeeVacationRequest;
 import com.example.demo.entities.Employee;
 import com.example.demo.services.EmployeeService;
@@ -45,6 +46,12 @@ public class EmployeeController {
     @PatchMapping("{id}/vacations")
     public ResponseEntity<?> handleEmployeeVacationRequest(@PathVariable Long id, @RequestBody EmployeeVacationRequest request) {
         employeeService.handleEmployeeVacationRequest(id, request.getStartDate(), request.getEndDate());
+        return ResponseEntity.ok().build();
+    }
+
+    @PatchMapping("salary")
+    public ResponseEntity<?> handleEmployeesAnnualRaise(@RequestBody AnnualRaiseRequest request) {
+        employeeService.handleAnnualRaise(request.getRaisePercentage(), request.getMinHiringMonths());
         return ResponseEntity.ok().build();
     }
 
