@@ -76,4 +76,5 @@ public class EmployeeService {
             throw new MissingDataException("Missing required data.");
         employeeRepo.handleEmployeesAnnualRaise(raisePercentage, minHiringMonths);
     }
+
 }
