@@ -19,4 +19,13 @@ public interface EmployeeRepo extends JpaRepository<Employee, Long> {
     @Procedure(name = "Employee.handleVacationRequest")
     @Transactional
     Integer handleEmployeeVacationRequest(@Param("P_EMP_ID") Long id, @Param("P_START_DATE") LocalDate startDate, @Param("P_END_DATE") LocalDate endDate);
+
+    @Modifying
+    @Query("UPDATE #{#entityName} e SET e.vacationBalance = e.vacationBalance - :requestedDaysCount WHERE e.id = :id")
+    void updateEmpVacationBalance(Long id, long requestedDaysCount);
+
+    @Modifying
+    @Query(value = "INSERT INTO EMPLOYEES_VACATION_HISTORY (VACATION_START_DATE, VACATION_END_DATE, EMPLOYEE_ID)\n" +
+            " VALUES (:startDate , :endDate , :id)", nativeQuery = true)
+    void insertEmpVacationHistory(Long id, LocalDate startDate, LocalDate endDate);
 }

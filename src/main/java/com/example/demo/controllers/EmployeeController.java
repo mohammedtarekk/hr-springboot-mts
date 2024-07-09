@@ -50,4 +50,10 @@ public class EmployeeController {
         return ResponseEntity.ok().build();
     }
 
+    @PatchMapping("{id}/vacations/v2")
+    public ResponseEntity<?> handleEmployeeVacationRequestV2(@PathVariable Long id, @RequestBody EmployeeVacationRequest request) {
+        employeeService.handleEmployeeVacationRequestV2(id, request.getStartDate(), request.getEndDate());
+        return ResponseEntity.ok().build();
+    }
+
 }

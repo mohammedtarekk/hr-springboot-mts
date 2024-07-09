@@ -30,7 +30,6 @@ public class Employee{
     private LocalDate hireDate;
     private String phoneNumber;
     private Float salary;
-    @Column(updatable = false)
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private Integer vacationBalance;
 
